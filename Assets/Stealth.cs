@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Stealth : MonoBehaviour
 {
-    public bool stealthed;
+    public BoolSO stealthed;
     public SpriteRenderer sprite;
     public Color stealthShade;
     Color baseColor;
 
     private void Start()
     {
-        baseColor = sprite.color; 
+        baseColor = sprite.color;
+        stealthed.boolSO = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,13 +33,13 @@ public class Stealth : MonoBehaviour
 
     public void EnterStealth()
     {
-        stealthed = true;
+        stealthed.boolSO = true;
         sprite.color = stealthShade;
     }
 
     public void ExitStealth()
     {
-        stealthed = false;
+        stealthed.boolSO = false;
         sprite.color = baseColor;
     }
 }
