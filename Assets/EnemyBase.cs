@@ -89,12 +89,12 @@ public class EnemyBase : MonoBehaviour
     {
         if (currentLevel == 1)
         {
-            if (currentPoint == pointA.transform)
+            if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl1PatrollA)
             {
                 pointA = LevelManager.Instance.lvl1PatrollA;
                 currentPoint = pointA.transform;
             }
-            else
+            else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl1PatrollB)
             {
                 pointB = LevelManager.Instance.lvl1PatrollB;
                 currentPoint = pointB.transform;
@@ -102,12 +102,12 @@ public class EnemyBase : MonoBehaviour
         }
         else if (currentLevel == 2)
         {
-            if (currentPoint == pointA.transform)
+            if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl2PatrollA)
             {
                 pointA = LevelManager.Instance.lvl2PatrollA;
                 currentPoint = pointA.transform;
             }
-            else
+            else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl2PatrollB)
             {
                 pointB = LevelManager.Instance.lvl2PatrollB;
                 currentPoint = pointB.transform;
@@ -115,12 +115,12 @@ public class EnemyBase : MonoBehaviour
         }
         else if (currentLevel == 3)
         {
-            if (currentPoint == pointA.transform)
+            if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl3PatrollA)
             {
                 pointA = LevelManager.Instance.lvl3PatrollA;
                 currentPoint = pointA.transform;
             }
-            else
+            else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl3PatrollB)
             {
                 pointB = LevelManager.Instance.lvl3PatrollB;
                 currentPoint = pointB.transform;

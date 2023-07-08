@@ -798,6 +798,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6115058573400794808, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115058573405069564, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6115058574475795023, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
       propertyPath: m_Color.b
       value: 0.2830189
@@ -1192,10 +1200,13 @@ MonoBehaviour:
   sightRange: {fileID: 2138132756}
   alertSightRange: {fileID: 979665024}
   eyes: {fileID: 649153521}
+  currentPoint: {fileID: 0}
   speed: 3
   playerIsStealthed: {fileID: 11400000, guid: 121c010a2c7aaf443a807a1f0703f41e, type: 2}
   whereTheyShouldBe: 0
   patience: 3
+  searchingForPlayer: 0
+  caughtPlayer: 0
   MinDist: 0.1
   MaxDist: 0
   currentLevel: 1
@@ -1375,6 +1386,14 @@ PrefabInstance:
     - target: {fileID: 6115058573226226563, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115058573400794808, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115058573405069564, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.1
       objectReference: {fileID: 0}
     - target: {fileID: 6115058574475795023, guid: ade26329f164c9a49bda7b6a1889293c, type: 3}
       propertyPath: m_Color.b

@@ -14,6 +14,7 @@ public class PlayerController : Singleton<PlayerController>
     public bool canMove;
 
     public float zAxis, yAxis;
+    door currentDoor;
 
     private void Start()
     {
@@ -28,6 +29,21 @@ public class PlayerController : Singleton<PlayerController>
     private void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal");
+
+        if (currentDoor != null && canMove && Input.GetKeyDown(KeyCode.Space))
+        {
+            if (currentDoor.upDoor)
+            {
+                LevelManager.Instance.playerLevel += 1;
+            }
+            else
+            {
+                LevelManager.Instance.playerLevel -= 1;
+            }
+
+            transform.position = new Vector3(transform.position.x, currentDoor.leadsToDoor.transform.position.y, transform.position.z);
+        }
+
         Flip();
     }
 
@@ -65,6 +81,11 @@ public class PlayerController : Singleton<PlayerController>
         {
             RoomManager.Instance.isInCorrectRoom = true;
         }
+
+        if (collision.gameObject.tag == "Door")
+        {
+            currentDoor = collision.GetComponent<door>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -84,6 +105,11 @@ public class PlayerController : Singleton<PlayerController>
         else if (collision.gameObject == RoomManager.Instance.room4 & RoomManager.Instance.correctRoom == 4)
         {
             RoomManager.Instance.isInCorrectRoom = false;
+        }
+
+        if (collision.gameObject.tag == "Door")
+        {
+            currentDoor = null;
         }
     }
 }
