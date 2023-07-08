@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cover
+  - Door
+  - Room
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Door
   - 
   - 
   - 
