@@ -21,6 +21,8 @@ public class PlayerController : Singleton<PlayerController>
     public ItemYouCanTake heldItem;
     public bool sendingItem;
 
+    public Animator anim;
+
     private void Start()
     {
         canMove = true;
@@ -34,6 +36,14 @@ public class PlayerController : Singleton<PlayerController>
     private void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal");
+        if (moveHorizontal != 0)
+        {
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
+        }
 
         if (currentDoor != null && canMove && Input.GetKeyDown(KeyCode.Space))
         {

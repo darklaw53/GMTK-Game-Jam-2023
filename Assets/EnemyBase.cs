@@ -7,7 +7,6 @@ public class EnemyBase : MonoBehaviour
     public GameObject pointA, pointB;
     public GameObject sightRange, alertSightRange, eyes;
     Rigidbody2D rb2D;
-    Animator anim;
     public Transform currentPoint;
 
     public float speed;
@@ -34,6 +33,7 @@ public class EnemyBase : MonoBehaviour
 
     public bool isTheBoss;
     bool facingRight = true;
+    public Animator anim;
 
     private void Start()
     {
@@ -54,6 +54,15 @@ public class EnemyBase : MonoBehaviour
     private void Update()
     {
         GoToTargetDestination(destinationTarget);
+
+        if (rb2D.velocity.x != 0)
+        {
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
+        }
 
         var hit = Physics2D.Linecast(eyes.transform.position, sightRange.transform.position, 1 << LayerMask.NameToLayer("Player"));
         if (searchingForPlayer)
@@ -333,7 +342,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (caughtPlayer)
         {
-            PlayerController.Instance.transform.position = transform.position;
+            PlayerController.Instance.transform.position = new Vector3(transform.position.x, transform.position.y +1, transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, new Vector3(transform.position.x, yAxis, zAxis)) >= MinDist)

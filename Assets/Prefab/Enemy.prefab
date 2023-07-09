@@ -131,7 +131,10 @@ MonoBehaviour:
   isInRoom2: 0
   isInRoom3: 0
   isInRoom4: 0
+  isInRoom5: 0
   destinationTarget: 0
+  isTheBoss: 0
+  anim: {fileID: 7729367874394627027}
 --- !u!61 &6281790858754532952
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -220,6 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6281790858836658820}
   - component: {fileID: 6281790858836658827}
+  - component: {fileID: 7729367874394627027}
   m_Layer: 3
   m_Name: Sprite
   m_TagString: Untagged
@@ -294,3 +298,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7729367874394627027
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281790858836658821}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6eb3bc37117a22b4d8ee987b5970c272, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
