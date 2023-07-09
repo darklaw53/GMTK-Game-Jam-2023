@@ -164,7 +164,7 @@ public class EnemyBase : MonoBehaviour
     IEnumerator SurprisedToSeePlayer()
     {
         FindObjectOfType<LevelMusic>().playAlertMusic();
-        FindObjectOfType<LevelMusic>().PlayOneShot(alertSound);
+        GetComponent<AudioSource>().PlayOneShot(alertSound);
         speed = 0;
         rb2D.velocity = Vector2.zero;
         yield return new WaitForSeconds(1);
@@ -185,6 +185,11 @@ public class EnemyBase : MonoBehaviour
                 searchingForPlayer = false;
             }
         }
+    }
+
+    public void PlayStompSound()
+    {
+        GetComponent<AudioSource>().Play();
     }
 
     public void GoToTargetDestination (float target)
