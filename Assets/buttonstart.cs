@@ -12,11 +12,13 @@ public class buttonstart : MonoBehaviour
     private void OnMouseEnter()
     {
         Start.sprite = badStart;
+        FindObjectOfType<LevelMusic>().playAlertMusic();
     }
 
     private void OnMouseExit()
     {
         Start.sprite = goodStart;
+        FindObjectOfType<LevelMusic>().playRegularMusic();
     }
 
     public void StartGame()
