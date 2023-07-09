@@ -36,6 +36,7 @@ public class EnemyBase : MonoBehaviour
     public Animator anim;
 
     public bool comesFromTheBottom;
+    public AudioClip alertSound;
 
     private void Start()
     {
@@ -162,6 +163,8 @@ public class EnemyBase : MonoBehaviour
 
     IEnumerator SurprisedToSeePlayer()
     {
+        FindObjectOfType<LevelMusic>().playAlertMusic();
+        FindObjectOfType<LevelMusic>().PlayOneShot(alertSound);
         speed = 0;
         rb2D.velocity = Vector2.zero;
         yield return new WaitForSeconds(1);
@@ -462,6 +465,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (caughtPlayer)
         {
+            FindObjectOfType<LevelMusic>().playRegularMusic();
             PlayerController.Instance.canMove = false;
             PlayerController.Instance.rb2D.gravityScale = 0;
             PlayerController.Instance.colider.isTrigger = true;
