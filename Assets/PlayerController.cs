@@ -6,6 +6,8 @@ public class PlayerController : Singleton<PlayerController>
 {
     public Rigidbody2D rb2D;
     public BoxCollider2D colider;
+    public AudioClip pickupItem;
+    public AudioClip takeStairs;
 
     public float moveSpeed, jumpForce;
     float moveHorizontal, moveVertical;
@@ -55,6 +57,7 @@ public class PlayerController : Singleton<PlayerController>
             {
                 LevelManager.Instance.playerLevel -= 1;
             }
+            GetComponent<AudioSource>().PlayOneShot(takeStairs);
 
             transform.position = new Vector3(transform.position.x, currentDoor.leadsToDoor.transform.position.y, transform.position.z);
         }
@@ -68,6 +71,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             heldItem = inFrontOfItem;
             heldItem.transform.parent = transform;
+            GetComponent<AudioSource>().PlayOneShot(pickupItem);
         }
         else if (inFrontOfItem == null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem != null)
         {

@@ -12,6 +12,7 @@ public class buttonstart : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        FindObjectOfType<LevelMusic>().playAlertMusic();
         if (Start != null)
         {
 
