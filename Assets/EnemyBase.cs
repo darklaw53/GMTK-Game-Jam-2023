@@ -27,10 +27,13 @@ public class EnemyBase : MonoBehaviour
     bool seesPlayer;
 
     public float currentLevel;
-    public bool isInRoom1, isInRoom2, isInRoom3, isInRoom4;
+    public bool isInRoom1, isInRoom2, isInRoom3, isInRoom4, isInRoom5;
     public float destinationTarget = 0;
     bool seekingDestination;
     bool wantsToGoUp, wantsToGoDown;
+
+    public bool isTheBoss;
+    bool facingRight = true;
 
     private void Start()
     {
@@ -87,44 +90,47 @@ public class EnemyBase : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentLevel == 1)
-        {
-            if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl1PatrollA)
+        if (!isTheBoss)
+        {/*
+            if (currentLevel == 1)
             {
-                pointA = LevelManager.Instance.lvl1PatrollA;
-                currentPoint = pointA.transform;
+                if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl1PatrollA)
+                {
+                    pointA = LevelManager.Instance.lvl1PatrollA;
+                    currentPoint = pointA.transform;
+                }
+                else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl1PatrollB)
+                {
+                    pointB = LevelManager.Instance.lvl1PatrollB;
+                    currentPoint = pointB.transform;
+                }
             }
-            else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl1PatrollB)
+            else if (currentLevel == 2)
             {
-                pointB = LevelManager.Instance.lvl1PatrollB;
-                currentPoint = pointB.transform;
+                if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl2PatrollA)
+                {
+                    pointA = LevelManager.Instance.lvl2PatrollA;
+                    currentPoint = pointA.transform;
+                }
+                else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl2PatrollB)
+                {
+                    pointB = LevelManager.Instance.lvl2PatrollB;
+                    currentPoint = pointB.transform;
+                }
             }
-        }
-        else if (currentLevel == 2)
-        {
-            if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl2PatrollA)
+            else if (currentLevel == 3)
             {
-                pointA = LevelManager.Instance.lvl2PatrollA;
-                currentPoint = pointA.transform;
-            }
-            else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl2PatrollB)
-            {
-                pointB = LevelManager.Instance.lvl2PatrollB;
-                currentPoint = pointB.transform;
-            }
-        }
-        else if (currentLevel == 3)
-        {
-            if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl3PatrollA)
-            {
-                pointA = LevelManager.Instance.lvl3PatrollA;
-                currentPoint = pointA.transform;
-            }
-            else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl3PatrollB)
-            {
-                pointB = LevelManager.Instance.lvl3PatrollB;
-                currentPoint = pointB.transform;
-            }
+                if (currentPoint == pointA.transform && pointA != LevelManager.Instance.lvl3PatrollA)
+                {
+                    pointA = LevelManager.Instance.lvl3PatrollA;
+                    currentPoint = pointA.transform;
+                }
+                else if (currentPoint == pointB.transform && pointB != LevelManager.Instance.lvl3PatrollB)
+                {
+                    pointB = LevelManager.Instance.lvl3PatrollB;
+                    currentPoint = pointB.transform;
+                }
+            }*/
         }
 
         if (!searchingForPlayer)
@@ -169,6 +175,33 @@ public class EnemyBase : MonoBehaviour
 
     public void GoToTargetDestination (float target)
     {
+            var x = pointA;
+            var y = pointB;
+
+            if (isTheBoss && currentLevel == 1)
+            {
+                pointA = LevelManager.Instance.lvl1PatrollA;
+                pointB = LevelManager.Instance.lvl1PatrollB;
+            }
+            else if (isTheBoss && currentLevel == 2)
+            {
+                pointA = LevelManager.Instance.lvl2PatrollA;
+                pointB = LevelManager.Instance.lvl2PatrollB;
+            }
+
+            if (currentPoint == LevelManager.Instance.bossPatrolllvl1AL || currentPoint == LevelManager.Instance.bossPatrolllvl2AL || currentPoint == LevelManager.Instance.bossPatrolllvl1BR || currentPoint == LevelManager.Instance.bossPatrolllvl2BR)
+            {
+                Flip();
+                if (x == currentPoint)
+                {
+                    currentPoint = pointA.transform;
+                }
+                else if (y == currentPoint)
+                {
+                    currentPoint = pointB.transform;
+                }
+            }
+
         if (target == 1)
         {
             if (currentLevel == 2)
@@ -190,6 +223,10 @@ public class EnemyBase : MonoBehaviour
             else if (currentLevel == 1)
             {
                 wantsToGoUp = true;
+            }
+            else if (currentLevel == 3)
+            {
+                wantsToGoDown = true;
             }
         }
         else if (target == 2)
@@ -214,6 +251,10 @@ public class EnemyBase : MonoBehaviour
             {
                 wantsToGoUp = true;
             }
+            else if (currentLevel == 3)
+            {
+                wantsToGoDown = true;
+            }
         }
         else if (target == 3)
         {
@@ -234,6 +275,10 @@ public class EnemyBase : MonoBehaviour
                 }
             }
             else if (currentLevel == 2)
+            {
+                wantsToGoDown = true;
+            }
+            else if (currentLevel == 3)
             {
                 wantsToGoDown = true;
             }
@@ -259,6 +304,27 @@ public class EnemyBase : MonoBehaviour
             else if (currentLevel == 2)
             {
                 wantsToGoDown = true;
+            }
+            else if (currentLevel == 3)
+            {
+                wantsToGoDown = true;
+            }
+        }
+        else if (target == 5)
+        {
+            if (currentLevel == 3)
+            {
+                destinationTarget = 0;
+                seekingDestination = false;
+                //wantsToGoDown = true;
+            }
+            else if (currentLevel == 1)
+            {
+                wantsToGoUp = true;
+            }
+            else if (currentLevel == 2)
+            {
+                wantsToGoUp = true;
             }
         }
     }
@@ -289,12 +355,91 @@ public class EnemyBase : MonoBehaviour
         {
             Flip();
             currentPoint = pointA.transform;
+            if (isTheBoss)
+            {
+                var x = Random.Range(1, 5);
+                if (x == 1)
+                {
+                    pointB = LevelManager.Instance.bossPatrolllvl1BL;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoDown = true;
+                    }
+                }
+                else if (x == 2)
+                {
+                    pointB = LevelManager.Instance.bossPatrolllvl1BR;
+                    pointA = LevelManager.Instance.bossPatrolllvl1AR;
+                    currentPoint = pointA.transform;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoDown = true;
+                    }
+                }
+                else if (x == 3)
+                {
+                    pointB = LevelManager.Instance.bossPatrolllvl2BL;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoUp = true;
+                    }
+                }
+                else if (x == 4)
+                {
+                    pointB = LevelManager.Instance.bossPatrolllvl2BR;
+                    pointA = LevelManager.Instance.bossPatrolllvl2AR;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoUp = true;
+                    }
+                }
+            }
         }
 
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
         {
             Flip();
             currentPoint = pointB.transform;
+            if (isTheBoss)
+            {
+                var x = Random.Range(1, 5);
+                if (x == 1)
+                {
+                    pointA = LevelManager.Instance.bossPatrolllvl1AL;
+                    pointB = LevelManager.Instance.bossPatrolllvl1BL;
+                    currentPoint = pointB.transform;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoDown = true;
+                    }
+                }
+                else if (x == 2)
+                {
+                    pointA = LevelManager.Instance.bossPatrolllvl1AR;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoDown = true;
+                    }
+                }
+                else if (x == 3)
+                {
+                    pointA = LevelManager.Instance.bossPatrolllvl2AL;
+                    pointB = LevelManager.Instance.bossPatrolllvl2BL;
+                    currentPoint = pointB.transform;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoUp = true;
+                    }
+                }
+                else if (x == 4)
+                {
+                    pointA = LevelManager.Instance.bossPatrolllvl2AR;
+                    if (currentLevel == 2)
+                    {
+                        wantsToGoUp = true;
+                    }
+                }
+            }
         }
     }
 
@@ -309,7 +454,8 @@ public class EnemyBase : MonoBehaviour
             StopCoroutine("CantSeePlayer");
             speed = startSpeed;
             searchingForPlayer = false;
-            destinationTarget = 1;
+            destinationTarget = 5;
+            playerIsStealthed.boolSO = true;
         }
         else
         {
@@ -327,7 +473,7 @@ public class EnemyBase : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && searchingForPlayer)
         {
             caughtPlayer = true;
         }
@@ -342,24 +488,46 @@ public class EnemyBase : MonoBehaviour
                 wantsToGoUp = false;
                 transform.position = x.leadsToDoor.transform.position;
 
-                if (currentPoint == pointA.transform)
+                if (!isTheBoss)
                 {
-                    pointB = LevelManager.Instance.lvl2PatrollB;
-                    pointA = LevelManager.Instance.lvl2PatrollA;
-                    currentPoint = pointA.transform;
+                    if (currentPoint == pointA.transform)
+                    {
+                        pointB = LevelManager.Instance.lvl2PatrollB;
+                        pointA = LevelManager.Instance.lvl2PatrollA;
+                        currentPoint = pointA.transform;
 
-                    zAxis = pointB.transform.position.z;
-                    yAxis = pointB.transform.position.y;
+                        zAxis = pointB.transform.position.z;
+                        yAxis = pointB.transform.position.y;
+                    }
+                    else
+                    {
+                        pointB = LevelManager.Instance.lvl2PatrollB;
+                        pointA = LevelManager.Instance.lvl2PatrollA;
+                        currentPoint = pointB.transform;
+
+                    }
                 }
                 else
                 {
-                    pointB = LevelManager.Instance.lvl2PatrollB;
-                    pointA = LevelManager.Instance.lvl2PatrollA;
-                    currentPoint = pointB.transform;
-
-                    zAxis = pointB.transform.position.z;
-                    yAxis = pointB.transform.position.y;
+                    if (currentPoint == LevelManager.Instance.bossPatrolllvl2BL || currentPoint == LevelManager.Instance.bossPatrolllvl2AL)
+                    {
+                        if (facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointA.transform;
+                        }
+                    }
+                    else if (currentPoint == LevelManager.Instance.bossPatrolllvl2BR || currentPoint == LevelManager.Instance.bossPatrolllvl2AR)
+                    {
+                        if (!facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointB.transform;
+                        }
+                    }
                 }
+                        zAxis = pointB.transform.position.z;
+                        yAxis = pointB.transform.position.y;
 
                 if (caughtPlayer)
                 {
@@ -372,19 +540,41 @@ public class EnemyBase : MonoBehaviour
                 wantsToGoDown = false;
                 transform.position = x.leadsToDoor.transform.position;
 
-                if (currentPoint == pointA.transform)
+                if (!isTheBoss)
                 {
-                    pointA = LevelManager.Instance.lvl1PatrollA;
-                    currentPoint = pointA.transform;
+                    if (currentPoint == pointA.transform)
+                    {
+                        pointA = LevelManager.Instance.lvl1PatrollA;
+                        currentPoint = pointA.transform;
+                    }
+                    else
+                    {
+                        pointB = LevelManager.Instance.lvl1PatrollB;
+                        currentPoint = pointB.transform;
+                    }
                 }
                 else
                 {
-                    pointB = LevelManager.Instance.lvl1PatrollB;
-                    currentPoint = pointB.transform;
+                    if (currentPoint == LevelManager.Instance.bossPatrolllvl1BL || currentPoint == LevelManager.Instance.bossPatrolllvl1AL)
+                    {
+                        if (facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointA.transform;
+                        }
+                    }
+                    else if (currentPoint == LevelManager.Instance.bossPatrolllvl1BR || currentPoint == LevelManager.Instance.bossPatrolllvl1AR)
+                    {
+                        if (!facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointB.transform;
+                        }
+                    }
                 }
 
                 zAxis = pointB.transform.position.z;
-                yAxis = pointB.transform.position.y;
+                    yAxis = pointB.transform.position.y;
 
                 if (caughtPlayer)
                 {
@@ -413,6 +603,31 @@ public class EnemyBase : MonoBehaviour
             {
                 x = RoomManager.Instance.room4;
             }
+            else if (RoomManager.Instance.correctRoom == 5)
+            {
+                x = RoomManager.Instance.room5;
+            }
+
+            if (collision.gameObject == RoomManager.Instance.room1)
+            {
+                isInRoom1 = true;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room2)
+            {
+                isInRoom2 = true;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room3)
+            {
+                isInRoom3 = true;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room4)
+            {
+                isInRoom4 = true;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room5)
+            {
+                isInRoom5 = true;
+            }
 
             if (caughtPlayer && collision.gameObject == x)
             {
@@ -424,6 +639,48 @@ public class EnemyBase : MonoBehaviour
                 caughtPlayer = false;
                 destinationTarget = 0;
 
+                playerIsStealthed.boolSO = false;
+
+                if (isTheBoss)
+                {
+                    var y = Random.Range(1, 5);
+                    if (y == 1)
+                    {
+                        pointB = LevelManager.Instance.bossPatrolllvl1BL;
+                        if (currentLevel == 2)
+                        {
+                            wantsToGoDown = true;
+                        }
+                    }
+                    else if (y == 2)
+                    {
+                        pointB = LevelManager.Instance.bossPatrolllvl1BR;
+                        pointA = LevelManager.Instance.bossPatrolllvl1AR;
+                        currentPoint = pointA.transform;
+                        if (currentLevel == 2)
+                        {
+                            wantsToGoDown = true;
+                        }
+                    }
+                    else if (y == 3)
+                    {
+                        pointB = LevelManager.Instance.bossPatrolllvl2BL;
+                        if (currentLevel == 2)
+                        {
+                            wantsToGoUp = true;
+                        }
+                    }
+                    else if (y == 4)
+                    {
+                        pointB = LevelManager.Instance.bossPatrolllvl2BR;
+                        pointA = LevelManager.Instance.bossPatrolllvl2AR;
+                        if (currentLevel == 2)
+                        {
+                            wantsToGoUp = true;
+                        }
+                    }
+                }
+                /*
                 if (x == RoomManager.Instance.room1 || x == RoomManager.Instance.room3)
                 {
                     Flip();
@@ -434,6 +691,7 @@ public class EnemyBase : MonoBehaviour
                     Flip();
                     currentPoint = pointB.transform;
                 }
+                */
             }
         }
     }
@@ -444,6 +702,30 @@ public class EnemyBase : MonoBehaviour
         {
             caughtPlayer = false;
         }
+
+        if (collision.gameObject.tag == "Room")
+        {
+            if (collision.gameObject == RoomManager.Instance.room1)
+            {
+                isInRoom1 = false;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room2)
+            {
+                isInRoom2 = false;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room3)
+            {
+                isInRoom3 = false;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room4)
+            {
+                isInRoom4 = false;
+            }
+            else if (collision.gameObject == RoomManager.Instance.room5)
+            {
+                isInRoom5 = false;
+            }
+        }
     }
 
     void Flip()
@@ -451,6 +733,7 @@ public class EnemyBase : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
         transform.localScale = localScale;
+        facingRight = !facingRight;
     }
 
     private void OnDrawGizmos()

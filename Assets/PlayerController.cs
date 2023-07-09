@@ -51,8 +51,7 @@ public class PlayerController : Singleton<PlayerController>
         else if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !sendingItem)
         {
             sendingItem = true;
-            WindowManager.Instance.TakeObject(heldItem.itemName);
-            Destroy(heldItem.transform.gameObject);
+            WindowManager.Instance.TakeObject(heldItem.itemName, heldItem.transform.gameObject);
             heldItem = null;
         }
         else if (inFrontOfItem != null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem == null)
