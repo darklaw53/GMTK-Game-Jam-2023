@@ -473,12 +473,12 @@ public class EnemyBase : MonoBehaviour
             playerIsStealthed.boolSO = true;
             wantsToGoDown = false;
 
-            if (currentPoint == pointA.transform && transform.position.x < 5f)
+            if (currentPoint == pointA.transform && transform.position.x < 4.8f)
             {
                 Flip();
                 currentPoint = pointB.transform;
             }
-            else if (currentPoint == pointB.transform && transform.position.x > 5f)
+            else if (currentPoint == pointB.transform && transform.position.x > 4.8f)
             {
                 Flip();
                 currentPoint = pointA.transform;
@@ -504,7 +504,15 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && searchingForPlayer)
         {
-            caughtPlayer = true;
+            if (PlayerController.Instance.canMove == true || LevelManager.Instance.playerLevel != 3)
+            {
+                caughtPlayer = true;
+            }
+            else
+            {
+                caughtPlayer = false;
+                destinationTarget = 0;
+            }
         }
         
         if (collision.gameObject.tag == "Door")
@@ -679,6 +687,7 @@ public class EnemyBase : MonoBehaviour
                 caughtPlayer = false;
                 destinationTarget = 0;
 
+                currentLevel = 2;
                 playerIsStealthed.boolSO = false;
 
                 if (isTheBoss)

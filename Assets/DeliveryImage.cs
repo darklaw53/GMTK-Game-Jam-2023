@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DeliveryImage : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class DeliveryImage : MonoBehaviour
         PlayerController.Instance.sendingItem = false;
         if (slider.value == 1)
         {
-            //you win
+            SceneManager.LoadScene(2);
         }
         gameObject.SetActive(false);
     }

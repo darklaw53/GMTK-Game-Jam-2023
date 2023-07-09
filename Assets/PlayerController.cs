@@ -36,7 +36,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal");
-        if (moveHorizontal != 0)
+        if (moveHorizontal != 0 && canMove)
         {
             anim.SetBool("Walking", true);
         }
