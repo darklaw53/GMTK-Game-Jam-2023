@@ -16,24 +16,18 @@ public class buttonstart : MonoBehaviour
         {
 
         Start.sprite = badStart;
-<<<<<<< Updated upstream
         FindObjectOfType<LevelMusic>().playAlertMusic();
-=======
         }
->>>>>>> Stashed changes
     }
 
     private void OnMouseExit()
     {
-<<<<<<< Updated upstream
         Start.sprite = goodStart;
         FindObjectOfType<LevelMusic>().playRegularMusic();
-=======
         if (Start != null)
         {
             Start.sprite = goodStart;
         }
->>>>>>> Stashed changes
     }
 
     public void StartGame()
