@@ -182,6 +182,7 @@ public class EnemyBase : MonoBehaviour
             else
             {
                 StopCoroutine("CantSeePlayer");
+                FindObjectOfType<LevelMusic>().playRegularMusic();
                 searchingForPlayer = false;
             }
         }
