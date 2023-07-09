@@ -514,7 +514,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && searchingForPlayer)
         {
-            if (PlayerController.Instance.canMove == true || LevelManager.Instance.playerLevel != 3)
+            if (PlayerController.Instance.canMove == true || LevelManager.Instance.playerLevel != currentLevel)
             {
                 caughtPlayer = true;
             }
