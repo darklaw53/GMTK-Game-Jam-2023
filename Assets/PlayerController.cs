@@ -94,6 +94,15 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    public void DropItem()
+    {
+        if (heldItem != null)
+        {
+            heldItem = null;
+            heldItem.transform.parent = null;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == RoomManager.Instance.room1 & RoomManager.Instance.correctRoom == 1)

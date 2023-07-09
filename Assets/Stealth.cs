@@ -17,7 +17,7 @@ public class Stealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Cover")
+        if (collision.gameObject.tag == "Cover" && PlayerController.Instance.canMove)
         {
             EnterStealth();
         }

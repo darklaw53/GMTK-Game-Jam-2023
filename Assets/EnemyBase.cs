@@ -35,6 +35,8 @@ public class EnemyBase : MonoBehaviour
     bool facingRight = true;
     public Animator anim;
 
+    public bool comesFromTheBottom;
+
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -344,6 +346,10 @@ public class EnemyBase : MonoBehaviour
         {
             PlayerController.Instance.transform.position = new Vector3(transform.position.x, transform.position.y +1, transform.position.z);
         }
+        else if (comesFromTheBottom)
+        {
+            wantsToGoDown = true;
+        }
 
         if (Vector3.Distance(transform.position, new Vector3(transform.position.x, yAxis, zAxis)) >= MinDist)
         {
@@ -360,7 +366,7 @@ public class EnemyBase : MonoBehaviour
             rb2D.velocity = new Vector2(-speed, 0);
         }
 
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
+        if (Mathf.Abs(transform.position.x - currentPoint.position.x) < 0.5f && currentPoint == pointB.transform)
         {
             Flip();
             currentPoint = pointA.transform;
@@ -405,7 +411,7 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
+        if (Mathf.Abs(transform.position.x - currentPoint.position.x) < 0.5f && currentPoint == pointA.transform)
         {
             Flip();
             currentPoint = pointB.transform;
@@ -465,6 +471,20 @@ public class EnemyBase : MonoBehaviour
             searchingForPlayer = false;
             destinationTarget = 5;
             playerIsStealthed.boolSO = true;
+            wantsToGoDown = false;
+
+            if (currentPoint == pointA.transform && transform.position.x < 5f)
+            {
+                Flip();
+                currentPoint = pointB.transform;
+            }
+            else if (currentPoint == pointB.transform && transform.position.x > 5f)
+            {
+                Flip();
+                currentPoint = pointA.transform;
+            }
+
+            PlayerController.Instance.DropItem();
         }
         else
         {
@@ -541,6 +561,17 @@ public class EnemyBase : MonoBehaviour
                 if (caughtPlayer)
                 {
                     LevelManager.Instance.playerLevel += 1;
+                }
+
+                if (currentPoint == pointA.transform && transform.position.x < 5f)
+                {
+                    Flip();
+                    currentPoint = pointB.transform;
+                }
+                else if (currentPoint == pointB.transform && transform.position.x > 5f)
+                {
+                    Flip();
+                    currentPoint = pointA.transform;
                 }
             }
             else if (wantsToGoDown && !x.upDoor)
