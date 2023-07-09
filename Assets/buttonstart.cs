@@ -17,11 +17,13 @@ public class buttonstart : MonoBehaviour
         {
 
         Start.sprite = badStart;
+        FindObjectOfType<LevelMusic>().playAlertMusic();
         }
     }
 
     private void OnMouseExit()
     {
+        Start.sprite = goodStart;
         FindObjectOfType<LevelMusic>().playRegularMusic();
         if (Start != null)
         {
