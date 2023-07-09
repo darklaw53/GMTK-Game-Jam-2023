@@ -47,7 +47,14 @@ public class PlayerController : Singleton<PlayerController>
             anim.SetBool("Walking", false);
         }
 
-        if (currentDoor != null && canMove && Input.GetKeyDown(KeyCode.Space))
+
+        if (inFrontOfItem != null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem == null)
+        {
+            heldItem = inFrontOfItem;
+            heldItem.transform.parent = transform;
+            GetComponent<AudioSource>().PlayOneShot(pickupItem);
+        }
+        else if (currentDoor != null && canMove && Input.GetKeyDown(KeyCode.Space))
         {
             if (currentDoor.upDoor)
             {
@@ -66,12 +73,6 @@ public class PlayerController : Singleton<PlayerController>
             sendingItem = true;
             WindowManager.Instance.TakeObject(heldItem.itemName, heldItem.transform.gameObject);
             heldItem = null;
-        }
-        else if (inFrontOfItem != null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem == null)
-        {
-            heldItem = inFrontOfItem;
-            heldItem.transform.parent = transform;
-            GetComponent<AudioSource>().PlayOneShot(pickupItem);
         }
         else if (inFrontOfItem == null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem != null)
         {

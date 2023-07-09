@@ -469,6 +469,13 @@ public class EnemyBase : MonoBehaviour
 
     void ChasePLayer()
     {
+        if (!PlayerController.Instance.canMove || LevelManager.Instance.playerLevel != currentLevel)
+        {
+            searchingForPlayer = false;
+            caughtPlayer = false;
+            destinationTarget = 0;
+        }
+
         if (caughtPlayer)
         {
             FindObjectOfType<LevelMusic>().playRegularMusic();
@@ -520,6 +527,7 @@ public class EnemyBase : MonoBehaviour
             }
             else
             {
+                searchingForPlayer = false;
                 caughtPlayer = false;
                 destinationTarget = 0;
             }
