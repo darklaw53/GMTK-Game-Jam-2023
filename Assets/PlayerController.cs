@@ -102,8 +102,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (heldItem != null)
         {
-            heldItem = null;
             heldItem.transform.parent = null;
+            heldItem = null;
         }
     }
 
