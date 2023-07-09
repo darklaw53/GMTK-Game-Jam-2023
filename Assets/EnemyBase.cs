@@ -40,7 +40,7 @@ public class EnemyBase : MonoBehaviour
         //anim.SetBool("isRunning", true);
         sprite = GetComponent<SpriteRenderer>();
 
-        startColor = sprite.color;
+        //startColor = sprite.color;
         startSpeed = speed;
 
         player = PlayerController.Instance.gameObject;
@@ -76,11 +76,11 @@ public class EnemyBase : MonoBehaviour
 
         if (searchingForPlayer)
         {
-            sprite.color = Color.red;
+            //sprite.color = Color.red;
         }
         else
         {
-            sprite.color = startColor;
+            //sprite.color = startColor;
             speed = startSpeed;
         }
     }
@@ -334,7 +334,6 @@ public class EnemyBase : MonoBehaviour
         
         if (collision.gameObject.tag == "Door")
         {
-            Debug.Log("f");
             var x = collision.GetComponent<door>();
 
             if (wantsToGoUp && x.upDoor)

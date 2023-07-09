@@ -7,6 +7,8 @@ TagManager:
   - Cover
   - Door
   - Room
+  - Item
+  - Window
   layers:
   - Default
   - TransparentFX

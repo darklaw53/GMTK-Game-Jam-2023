@@ -28,22 +28,17 @@ public class CameraManager : Singleton<CameraManager>
         }
 
         float x = 0;
-        if (PlayerController.Instance.transform.position.x > wallLimitLeft.transform.position.x)
-        {
-            x = PlayerController.Instance.transform.position.x;
-        }
-        else
+        if (PlayerController.Instance.transform.position.x < wallLimitLeft.transform.position.x)
         {
             x = wallLimitLeft.transform.position.x;
         }
-
-        if (PlayerController.Instance.transform.position.x < wallLimitRight.transform.position.x)
+        else if (PlayerController.Instance.transform.position.x > wallLimitRight.transform.position.x)
         {
-            x = PlayerController.Instance.transform.position.x;
+            x = wallLimitRight.transform.position.x;
         }
         else
         {
-            x = wallLimitRight.transform.position.x;
+            x = PlayerController.Instance.transform.position.x;
         }
 
         mainCamera.transform.position = new Vector3(x, curLevelPos.y, -10);

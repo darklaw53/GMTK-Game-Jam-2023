@@ -12,9 +12,14 @@ public class PlayerController : Singleton<PlayerController>
     bool isFacingRight;
 
     public bool canMove;
+    public bool inFrontOfWindow;
+    public ItemYouCanTake inFrontOfItem;
 
     public float zAxis, yAxis;
     door currentDoor;
+
+    public ItemYouCanTake heldItem;
+    public bool sendingItem;
 
     private void Start()
     {
@@ -42,6 +47,23 @@ public class PlayerController : Singleton<PlayerController>
             }
 
             transform.position = new Vector3(transform.position.x, currentDoor.leadsToDoor.transform.position.y, transform.position.z);
+        }
+        else if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !sendingItem)
+        {
+            sendingItem = true;
+            WindowManager.Instance.TakeObject(heldItem.itemName);
+            Destroy(heldItem.transform.gameObject);
+            heldItem = null;
+        }
+        else if (inFrontOfItem != null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem == null)
+        {
+            heldItem = inFrontOfItem;
+            heldItem.transform.parent = transform;
+        }
+        else if (inFrontOfItem == null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem != null)
+        {
+            heldItem.transform.parent = null;
+            heldItem = null;
         }
 
         Flip();
@@ -86,6 +108,16 @@ public class PlayerController : Singleton<PlayerController>
         {
             currentDoor = collision.GetComponent<door>();
         }
+
+        if (collision.gameObject.tag == "Window")
+        {
+            inFrontOfWindow = true;
+        }
+
+        if (collision.gameObject.tag == "Item")
+        {
+            inFrontOfItem = collision.GetComponent<ItemYouCanTake>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -110,6 +142,16 @@ public class PlayerController : Singleton<PlayerController>
         if (collision.gameObject.tag == "Door")
         {
             currentDoor = null;
+        }
+
+        if (collision.gameObject.tag == "Window")
+        {
+            inFrontOfWindow = false;
+        }
+
+        if (collision.gameObject.tag == "Item")
+        {
+            inFrontOfItem = null;
         }
     }
 }
