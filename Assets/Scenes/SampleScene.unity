@@ -4309,7 +4309,7 @@ MonoBehaviour:
   request3: Soup
   request4: PowerUp
   reqSprite1: {fileID: 21300000, guid: 1f2d906a7640e4f4eb5984fb6f26012f, type: 3}
-  reqSprite2: {fileID: 21300000, guid: fada336ee5680044b9be255a825f6f6a, type: 3}
+  reqSprite2: {fileID: 21300000, guid: f6e6925c00deb554992f4819fde0e481, type: 3}
   reqSprite3: {fileID: 21300000, guid: 18e37aad1dcdd8b42a02883bde2af4dc, type: 3}
   reqSprite4: {fileID: 21300000, guid: 308ee71b2c296bd4bb719034fb7606d1, type: 3}
   reqPos1: {fileID: 1744691040}
