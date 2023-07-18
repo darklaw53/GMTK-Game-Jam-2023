@@ -2,38 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Window : MonoBehaviour
+public class Window : Singleton<Window>
 {
     public GameObject thoughtBubble;
     public SpriteRenderer thoughtBubbleObject;
 
+    public GameObject itemBase;
+    bool inFrontOFWindow;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         thoughtBubble.SetActive(true);
+        inFrontOFWindow = true;
     }
 
-    private void Update()
+    public void UpdateRequest(List<Items> items)
     {
-        if (WindowManager.Instance.currentRequest == 1)
+        thoughtBubble.SetActive(true);
+     
+        foreach (Transform child in thoughtBubbleObject.transform)
         {
-            thoughtBubbleObject.sprite = WindowManager.Instance.reqSprite1;
+            Destroy(child.gameObject);
         }
-        else if (WindowManager.Instance.currentRequest == 2)
+
+        foreach (Items child in items)
         {
-            thoughtBubbleObject.sprite = WindowManager.Instance.reqSprite2;
+            var x = Instantiate(itemBase, thoughtBubbleObject.transform);
+            x.GetComponent<SpriteRenderer>().sprite = child.sprite;
         }
-        else if (WindowManager.Instance.currentRequest == 3)
+
+        if (items.Count == 1)
         {
-            thoughtBubbleObject.sprite = WindowManager.Instance.reqSprite3;
+            thoughtBubbleObject.transform.position = new Vector3(-4.21f, thoughtBubbleObject.transform.position.y, thoughtBubbleObject.transform.position.z);
         }
-        else if (WindowManager.Instance.currentRequest == 4)
+        else if (items.Count == 2)
         {
-            thoughtBubbleObject.sprite = WindowManager.Instance.reqSprite4;
+            thoughtBubbleObject.transform.position = new Vector3(-5.1f, thoughtBubbleObject.transform.position.y, thoughtBubbleObject.transform.position.z);
         }
+        else if (items.Count == 3)
+        {
+            thoughtBubbleObject.transform.position = new Vector3(-6f, thoughtBubbleObject.transform.position.y, thoughtBubbleObject.transform.position.z);
+        }
+
+        if (!inFrontOFWindow) thoughtBubble.SetActive(false);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         thoughtBubble.SetActive(false);
+        inFrontOFWindow = false;
     }
 }

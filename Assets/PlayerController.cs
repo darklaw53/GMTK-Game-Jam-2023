@@ -24,6 +24,7 @@ public class PlayerController : Singleton<PlayerController>
     public bool sendingItem;
 
     public Animator anim;
+    bool givingItem;
 
     private void Start()
     {
@@ -54,7 +55,8 @@ public class PlayerController : Singleton<PlayerController>
             heldItem.transform.parent = transform;
             GetComponent<AudioSource>().PlayOneShot(pickupItem);
         }
-        else if (currentDoor != null && canMove && Input.GetKeyDown(KeyCode.Space))
+        
+        if (currentDoor != null && canMove && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)))
         {
             if (currentDoor.upDoor)
             {
@@ -68,13 +70,13 @@ public class PlayerController : Singleton<PlayerController>
 
             transform.position = new Vector3(transform.position.x, currentDoor.leadsToDoor.transform.position.y, transform.position.z);
         }
-        else if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !sendingItem)
+        
+        if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !givingItem)
         {
-            sendingItem = true;
-            WindowManager.Instance.TakeObject(heldItem.itemName, heldItem.transform.gameObject);
-            heldItem = null;
+            givingItem = true;
         }
-        else if (inFrontOfItem == null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem != null)
+        
+        if (!inFrontOfWindow && inFrontOfItem == null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem != null)
         {
             heldItem.transform.parent = null;
             heldItem = null;
@@ -86,6 +88,13 @@ public class PlayerController : Singleton<PlayerController>
     private void FixedUpdate()
     {
         if (canMove) rb2D.velocity = new Vector2(moveHorizontal * moveSpeed, rb2D.velocity.y);
+
+        if (givingItem)
+        {
+            WindowManager.Instance.TakeObject(heldItem.itemName, heldItem.transform.gameObject);
+            heldItem = null;
+            givingItem = false;
+        }
     }
 
     void Flip()

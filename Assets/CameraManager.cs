@@ -9,6 +9,7 @@ public class CameraManager : Singleton<CameraManager>
     public GameObject mainCamera;
 
     public GameObject wallLimitLeft, wallLimitRight;
+    public float camSpeed;
 
     private void Update()
     {
@@ -41,6 +42,13 @@ public class CameraManager : Singleton<CameraManager>
             x = PlayerController.Instance.transform.position.x;
         }
 
-        mainCamera.transform.position = new Vector3(x, curLevelPos.y, -10);
+        float interpolation = camSpeed * Time.deltaTime;
+        Vector3 target = new Vector3(x, curLevelPos.y, -10);
+
+        Vector3 position = mainCamera.transform.position;
+        position.y = Mathf.Lerp(mainCamera.transform.position.y, target.y, interpolation);
+        position.x = Mathf.Lerp(mainCamera.transform.position.x, target.x, interpolation);
+
+        mainCamera.transform.position = position;
     }
 }

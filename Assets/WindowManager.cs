@@ -7,10 +7,13 @@ public class WindowManager : Singleton<WindowManager>
     public string request1, request2, request3, request4;
     public Sprite reqSprite1, reqSprite2, reqSprite3, reqSprite4;
     public Transform reqPos1, reqPos2, reqPos3, reqPos4;
-    public int currentRequest = 1;
+    public string currentRequdest;
 
     public GameObject deliveryWindow;
     Vector3 pos1, pos2, pos3, pos4;
+
+    public List<RequestSO> allRequests;
+    List<Items> currentRequest;
 
     private void Start()
     {
@@ -18,34 +21,68 @@ public class WindowManager : Singleton<WindowManager>
         pos2 = reqPos2.position;
         pos3 = reqPos3.position;
         pos4 = reqPos4.position;
+
+        NewRequest();
+    }
+
+    public void NewRequest()
+    {
+        if (allRequests[0] != null)
+        {
+            currentRequest = allRequests[0].itemList;
+            Window.Instance.UpdateRequest(currentRequest);
+
+            var y = new List<RequestSO>();
+            foreach (RequestSO x in allRequests)
+            {
+                if (x.itemList != currentRequest)
+                {
+                    y.Add(x);
+                }
+            }
+            allRequests = y;
+        }
+        else
+        {
+            //you win
+        }
     }
 
     public void TakeObject(string objectName, GameObject obj)
     {
-        if (currentRequest == 1 && objectName == request1)
+        bool gotSomething = false;
+
+        foreach (Items item in currentRequest)
         {
-            deliveryWindow.SetActive(true);
-            Destroy(obj);
-            currentRequest++;
+            if (item.itemName == objectName)
+            {
+                var y = new List<Items>();
+                foreach (Items x in currentRequest)
+                {
+                    if (x != item)
+                    {
+                        y.Add(x);
+                    }
+                }
+                currentRequest = y;
+
+                if (y.Count <= 0)
+                {
+                    deliveryWindow.SetActive(true);
+                    NewRequest();
+                }
+                else
+                {
+                    Window.Instance.UpdateRequest(currentRequest);
+                }
+
+                Destroy(obj);
+                gotSomething = true;
+                break;
+            }
         }
-        else if (currentRequest == 2 && objectName == request2)
-        {
-            deliveryWindow.SetActive(true);
-            Destroy(obj);
-            currentRequest++;
-        }
-        else if (currentRequest == 3 && objectName == request3)
-        {
-            deliveryWindow.SetActive(true);
-            Destroy(obj);
-            currentRequest++;
-        }
-        else if (currentRequest == 4 && objectName == request4)
-        {
-            deliveryWindow.SetActive(true);
-            Destroy(obj);
-        }
-        else
+
+        if (!gotSomething)
         {
             if (objectName == request1)
             {
