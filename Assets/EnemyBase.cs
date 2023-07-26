@@ -29,6 +29,10 @@ public class EnemyBase : MonoBehaviour
     public bool isInRoom1, isInRoom2, isInRoom3, isInRoom4, isInRoom5;
     public float destinationTarget = 0;
     bool seekingDestination;
+    bool goingUp;
+    bool goingDown;
+    public bool inFrontOfDoor;
+    door dooeINQuestion;
     bool wantsToGoUp, wantsToGoDown;
 
     public bool isTheBoss;
@@ -73,7 +77,7 @@ public class EnemyBase : MonoBehaviour
             hit = Physics2D.Linecast(eyes.transform.position, alertSightRange.transform.position, 1 << LayerMask.NameToLayer("Player"));
         }
 
-        if (hit.collider != null && !playerIsStealthed.boolSO && !caughtPlayer && !RoomManager.Instance.isInCorrectRoom)
+        if (PlayerController.Instance.canMove && hit.collider != null && !playerIsStealthed.boolSO && !caughtPlayer && !RoomManager.Instance.isInCorrectRoom)
         {
             if (!searchingForPlayer)
             {
@@ -354,6 +358,11 @@ public class EnemyBase : MonoBehaviour
         if (caughtPlayer)
         {
             PlayerController.Instance.transform.position = new Vector3(transform.position.x, transform.position.y +1, transform.position.z);
+            
+            if (inFrontOfDoor)
+            {
+                GoUp();
+            }
         }
         else if (comesFromTheBottom)
         {
@@ -490,15 +499,30 @@ public class EnemyBase : MonoBehaviour
             playerIsStealthed.boolSO = true;
             wantsToGoDown = false;
 
-            if (currentPoint == pointA.transform && transform.position.x < 4.8f)
+            if (inFrontOfDoor)
+            {
+                GoUp();
+            }
+
+            if (currentPoint == pointA.transform && transform.position.x < 0 && currentLevel == 2)
             {
                 Flip();
                 currentPoint = pointB.transform;
             }
-            else if (currentPoint == pointB.transform && transform.position.x > 4.8f)
+            else if (currentPoint == pointB.transform && transform.position.x > 0 && currentLevel == 2)
             {
                 Flip();
                 currentPoint = pointA.transform;
+            }
+            else if (currentPoint == pointB.transform && ((transform.position.x > -15 && transform.position.x < 0) || transform.position.x > 15) && currentLevel == 1)
+            {
+                Flip();
+                currentPoint = pointA.transform;
+            }
+            else if (currentPoint == pointA.transform && ((transform.position.x < 15 && transform.position.x > 0) || transform.position.x < -15) && currentLevel == 1)
+            {
+                Flip();
+                currentPoint = pointB.transform;
             }
 
             PlayerController.Instance.DropItem();
@@ -535,118 +559,11 @@ public class EnemyBase : MonoBehaviour
         
         if (collision.gameObject.tag == "Door")
         {
-            var x = collision.GetComponent<door>();
+            if (dooeINQuestion != null) if (dooeINQuestion.upDoor) goingUp = false;
+            inFrontOfDoor = true;
+            dooeINQuestion = collision.GetComponent<door>();
 
-            if (wantsToGoUp && x.upDoor)
-            {
-                currentLevel += 1;
-                wantsToGoUp = false;
-                transform.position = x.leadsToDoor.transform.position;
-
-                if (!isTheBoss)
-                {
-                    if (currentPoint == pointA.transform)
-                    {
-                        pointB = LevelManager.Instance.lvl2PatrollB;
-                        pointA = LevelManager.Instance.lvl2PatrollA;
-                        currentPoint = pointA.transform;
-
-                        zAxis = pointB.transform.position.z;
-                        yAxis = pointB.transform.position.y;
-                    }
-                    else
-                    {
-                        pointB = LevelManager.Instance.lvl2PatrollB;
-                        pointA = LevelManager.Instance.lvl2PatrollA;
-                        currentPoint = pointB.transform;
-
-                    }
-                }
-                else
-                {
-                    if (currentPoint == LevelManager.Instance.bossPatrolllvl2BL || currentPoint == LevelManager.Instance.bossPatrolllvl2AL)
-                    {
-                        if (facingRight)
-                        {
-                            Flip();
-                            currentPoint = pointA.transform;
-                        }
-                    }
-                    else if (currentPoint == LevelManager.Instance.bossPatrolllvl2BR || currentPoint == LevelManager.Instance.bossPatrolllvl2AR)
-                    {
-                        if (!facingRight)
-                        {
-                            Flip();
-                            currentPoint = pointB.transform;
-                        }
-                    }
-                }
-                        zAxis = pointB.transform.position.z;
-                        yAxis = pointB.transform.position.y;
-
-                if (caughtPlayer)
-                {
-                    LevelManager.Instance.playerLevel += 1;
-                }
-
-                if (currentPoint == pointA.transform && transform.position.x < 5f)
-                {
-                    Flip();
-                    currentPoint = pointB.transform;
-                }
-                else if (currentPoint == pointB.transform && transform.position.x > 5f)
-                {
-                    Flip();
-                    currentPoint = pointA.transform;
-                }
-            }
-            else if (wantsToGoDown && !x.upDoor)
-            {
-                currentLevel -= 1;
-                wantsToGoDown = false;
-                transform.position = x.leadsToDoor.transform.position;
-
-                if (!isTheBoss)
-                {
-                    if (currentPoint == pointA.transform)
-                    {
-                        pointA = LevelManager.Instance.lvl1PatrollA;
-                        currentPoint = pointA.transform;
-                    }
-                    else
-                    {
-                        pointB = LevelManager.Instance.lvl1PatrollB;
-                        currentPoint = pointB.transform;
-                    }
-                }
-                else
-                {
-                    if (currentPoint == LevelManager.Instance.bossPatrolllvl1BL || currentPoint == LevelManager.Instance.bossPatrolllvl1AL)
-                    {
-                        if (facingRight)
-                        {
-                            Flip();
-                            currentPoint = pointA.transform;
-                        }
-                    }
-                    else if (currentPoint == LevelManager.Instance.bossPatrolllvl1BR || currentPoint == LevelManager.Instance.bossPatrolllvl1AR)
-                    {
-                        if (!facingRight)
-                        {
-                            Flip();
-                            currentPoint = pointB.transform;
-                        }
-                    }
-                }
-
-                zAxis = pointB.transform.position.z;
-                    yAxis = pointB.transform.position.y;
-
-                if (caughtPlayer)
-                {
-                    LevelManager.Instance.playerLevel -= 1;
-                }
-            }
+            GoUp();
         }
 
         if (collision.gameObject.tag == "Room")
@@ -793,6 +710,129 @@ public class EnemyBase : MonoBehaviour
                 isInRoom5 = false;
             }
         }
+
+        if (collision.gameObject.tag == "Door")
+        {
+            inFrontOfDoor = false;
+        }
+    }
+
+    void GoUp()
+    {
+        if (wantsToGoUp && dooeINQuestion.upDoor && !goingUp)
+            {
+                goingUp = true; 
+
+                currentLevel += 1;
+                wantsToGoUp = false;
+                transform.position = dooeINQuestion.leadsToDoor.transform.position;
+
+                if (!isTheBoss)
+                {
+                    if (currentPoint == pointA.transform)
+                    {
+                        pointB = LevelManager.Instance.lvl2PatrollB;
+                        pointA = LevelManager.Instance.lvl2PatrollA;
+                        currentPoint = pointA.transform;
+
+                        zAxis = pointB.transform.position.z;
+                        yAxis = pointB.transform.position.y;
+                    }
+                    else
+                    {
+                        pointB = LevelManager.Instance.lvl2PatrollB;
+                        pointA = LevelManager.Instance.lvl2PatrollA;
+                        currentPoint = pointB.transform;
+
+                    }
+                }
+                else
+                {
+                    if (currentPoint == LevelManager.Instance.bossPatrolllvl2BL || currentPoint == LevelManager.Instance.bossPatrolllvl2AL)
+                    {
+                        if (facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointA.transform;
+                        }
+                    }
+                    else if (currentPoint == LevelManager.Instance.bossPatrolllvl2BR || currentPoint == LevelManager.Instance.bossPatrolllvl2AR)
+                    {
+                        if (!facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointB.transform;
+                        }
+                    }
+                }
+                zAxis = pointB.transform.position.z;
+                yAxis = pointB.transform.position.y;
+
+                if (caughtPlayer)
+                {
+                    LevelManager.Instance.playerLevel += 1;
+                }
+
+                if (currentPoint == pointA.transform && transform.position.x < 5f)
+                {
+                    Flip();
+                    currentPoint = pointB.transform;
+                }
+                else if (currentPoint == pointB.transform && transform.position.x > 5f)
+                {
+                    Flip();
+                    currentPoint = pointA.transform;
+                }
+            }
+        else if (wantsToGoDown && !dooeINQuestion.upDoor && !goingDown)
+            {
+                goingDown = true;
+
+                currentLevel -= 1;
+                wantsToGoDown = false;
+                transform.position = dooeINQuestion.leadsToDoor.transform.position;
+
+                if (!isTheBoss)
+                {
+                    if (currentPoint == pointA.transform)
+                    {
+                        pointA = LevelManager.Instance.lvl1PatrollA;
+                        currentPoint = pointA.transform;
+                    }
+                    else
+                    {
+                        pointB = LevelManager.Instance.lvl1PatrollB;
+                        currentPoint = pointB.transform;
+                    }
+                }
+                else
+                {
+                    if (currentPoint == LevelManager.Instance.bossPatrolllvl1BL || currentPoint == LevelManager.Instance.bossPatrolllvl1AL)
+                    {
+                        if (facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointA.transform;
+                        }
+                    }
+                    else if (currentPoint == LevelManager.Instance.bossPatrolllvl1BR || currentPoint == LevelManager.Instance.bossPatrolllvl1AR)
+                    {
+                        if (!facingRight)
+                        {
+                            Flip();
+                            currentPoint = pointB.transform;
+                        }
+                    }
+                }
+
+                zAxis = pointB.transform.position.z;
+                yAxis = pointB.transform.position.y;
+
+                if (caughtPlayer)
+                {
+                    LevelManager.Instance.playerLevel -= 1;
+                }
+            }
     }
 
     void Flip()
