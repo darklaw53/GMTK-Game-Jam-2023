@@ -71,6 +71,13 @@ public class EnemyBase : MonoBehaviour
             anim.SetBool("Walking", false);
         }
 
+        if (LevelManager.Instance.playerLevel != currentLevel)
+        {
+            StopCoroutine("CantSeePlayer");
+            FindObjectOfType<LevelMusic>().playRegularMusic();
+            searchingForPlayer = false;
+        }
+
         var hit = Physics2D.Linecast(eyes.transform.position, sightRange.transform.position, 1 << LayerMask.NameToLayer("Player"));
         if (searchingForPlayer)
         {
