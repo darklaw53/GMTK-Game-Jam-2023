@@ -38,6 +38,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Update()
     {
+        if (transform.childCount > 1 && heldItem == null)
+        {
+            transform.GetChild(1).transform.parent = null;
+        }
+
         moveHorizontal = Input.GetAxisRaw("Horizontal");
         if (moveHorizontal != 0 && canMove)
         {
@@ -48,12 +53,15 @@ public class PlayerController : Singleton<PlayerController>
             anim.SetBool("Walking", false);
         }
 
-
         if (inFrontOfItem != null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem == null)
         {
             heldItem = inFrontOfItem;
             heldItem.transform.parent = transform;
             GetComponent<AudioSource>().PlayOneShot(pickupItem);
+        }
+        else if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !givingItem && heldItem != null)
+        {
+            givingItem = true;
         }
         
         if (currentDoor != null && canMove && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)))
@@ -69,11 +77,6 @@ public class PlayerController : Singleton<PlayerController>
             GetComponent<AudioSource>().PlayOneShot(takeStairs);
 
             transform.position = new Vector3(transform.position.x, currentDoor.leadsToDoor.transform.position.y, transform.position.z);
-        }
-        
-        if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !givingItem && heldItem != null)
-        {
-            givingItem = true;
         }
         
         if (!inFrontOfWindow && inFrontOfItem == null && canMove && Input.GetKeyDown(KeyCode.Space) && heldItem != null)

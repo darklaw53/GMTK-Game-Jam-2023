@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97beb5831aed460428176191e40ed003, type: 3}
   m_Name: Flowers
   m_EditorClassIdentifier: 
-  itemName: Flowers
+  itemName: Roses
   sprite: {fileID: 21300000, guid: f6e6925c00deb554992f4819fde0e481, type: 3}

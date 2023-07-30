@@ -3814,7 +3814,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 97b313471afb1144fa201aa9b83cf73a, type: 2}
     - target: {fileID: 425231093025554498, guid: 54b02c86d8cbab84e98ac7e40b565c5d, type: 3}
       propertyPath: itemName
-      value: 1Up
+      value: PowerUp
       objectReference: {fileID: 0}
     - target: {fileID: 425231093025554499, guid: 54b02c86d8cbab84e98ac7e40b565c5d, type: 3}
       propertyPath: m_Size.x
@@ -5463,6 +5463,10 @@ MonoBehaviour:
   reqPos4: {fileID: 425231094015213131}
   currentRequdest: 
   deliveryWindow: {fileID: 115429684}
+  pos1: {x: 0, y: 0, z: 0}
+  pos2: {x: 0, y: 0, z: 0}
+  pos3: {x: 0, y: 0, z: 0}
+  pos4: {x: 0, y: 0, z: 0}
   allRequests:
   - {fileID: 11400000, guid: dde7c00aa859bfd48bf0f61ade68d940, type: 2}
   - {fileID: 11400000, guid: 1fc796e9accb9784fbe2b0b7f93d0d36, type: 2}
@@ -5673,7 +5677,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 23731dbf474ccca41951b143abe980a2, type: 2}
     - target: {fileID: 425231093025554498, guid: 54b02c86d8cbab84e98ac7e40b565c5d, type: 3}
       propertyPath: itemName
-      value: Flowers
+      value: Roses
       objectReference: {fileID: 0}
     - target: {fileID: 425231093025554499, guid: 54b02c86d8cbab84e98ac7e40b565c5d, type: 3}
       propertyPath: m_Size.x

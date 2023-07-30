@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97beb5831aed460428176191e40ed003, type: 3}
   m_Name: 1Up
   m_EditorClassIdentifier: 
-  itemName: 1Up
+  itemName: PowerUp
   sprite: {fileID: 21300000, guid: 308ee71b2c296bd4bb719034fb7606d1, type: 3}
