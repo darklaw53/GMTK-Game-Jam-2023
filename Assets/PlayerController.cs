@@ -71,7 +71,7 @@ public class PlayerController : Singleton<PlayerController>
             transform.position = new Vector3(transform.position.x, currentDoor.leadsToDoor.transform.position.y, transform.position.z);
         }
         
-        if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !givingItem)
+        if (inFrontOfWindow && canMove && Input.GetKeyDown(KeyCode.Space) && !givingItem && heldItem != null)
         {
             givingItem = true;
         }
