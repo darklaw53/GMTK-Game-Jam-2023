@@ -71,7 +71,7 @@ public class EnemyBase : MonoBehaviour
             anim.SetBool("Walking", false);
         }
 
-        if (LevelManager.Instance.playerLevel != currentLevel)
+        if (LevelManager.Instance.playerLevel != currentLevel && searchingForPlayer)
         {
             StopCoroutine("CantSeePlayer");
             FindObjectOfType<LevelMusic>().playRegularMusic();
