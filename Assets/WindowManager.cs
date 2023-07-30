@@ -10,7 +10,7 @@ public class WindowManager : Singleton<WindowManager>
     public string currentRequdest;
 
     public GameObject deliveryWindow;
-    Vector3 pos1, pos2, pos3, pos4;
+    public Vector3 pos1, pos2, pos3, pos4;
 
     public List<RequestSO> allRequests;
     List<Items> currentRequest;
@@ -42,16 +42,10 @@ public class WindowManager : Singleton<WindowManager>
             }
             allRequests = y;
         }
-        else
-        {
-            //you win
-        }
     }
 
     public void TakeObject(string objectName, GameObject obj)
     {
-        bool gotSomething = false;
-
         foreach (Items item in currentRequest)
         {
             if (item.itemName == objectName)
@@ -76,30 +70,27 @@ public class WindowManager : Singleton<WindowManager>
                     Window.Instance.UpdateRequest(currentRequest);
                 }
 
-                Destroy(obj);
-                gotSomething = true;
+                PlayerController.Instance.heldItem.transform.parent = null;
+                PlayerController.Instance.heldItem = null;
                 break;
             }
         }
 
-        if (!gotSomething)
+        if (objectName == request1)
         {
-            if (objectName == request1)
-            {
-                obj.transform.position = pos1;
-            }
-            else if (objectName == request2)
-            {
-                obj.transform.position = pos2;
-            }
-            else if (objectName == request3)
-            {
-                obj.transform.position = pos3;
-            }
-            else if (objectName == request4)
-            {
-                obj.transform.position = pos4;
-            }
+            obj.transform.position = pos4;
+        }
+        else if (objectName == request2)
+        {
+            obj.transform.position = pos2;
+        }
+        else if (objectName == request3)
+        {
+            obj.transform.position = pos1;
+        }
+        else if (objectName == request4)
+        {
+            obj.transform.position = pos3;
         }
     }
 }

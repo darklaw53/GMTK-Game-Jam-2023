@@ -91,7 +91,7 @@ public class PlayerController : Singleton<PlayerController>
 
         if (givingItem)
         {
-            WindowManager.Instance.TakeObject(heldItem.itemName, heldItem.transform.gameObject);
+            if (heldItem != null) WindowManager.Instance.TakeObject(heldItem.itemName, heldItem.transform.gameObject);
             heldItem = null;
             givingItem = false;
         }
