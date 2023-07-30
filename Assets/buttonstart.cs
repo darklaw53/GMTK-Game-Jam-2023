@@ -12,22 +12,23 @@ public class buttonstart : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        FindObjectOfType<LevelMusic>().playAlertMusic();
+        var x = FindObjectOfType<LevelMusic>();
+        if (x != null) x.playAlertMusic();
         if (Start != null)
         {
-
-        Start.sprite = badStart;
-        FindObjectOfType<LevelMusic>().playAlertMusic();
+            Start.sprite = badStart;
+            if (x != null) x.playAlertMusic();
         }
     }
 
     private void OnMouseExit()
     {
-        Start.sprite = goodStart;
-        FindObjectOfType<LevelMusic>().playRegularMusic();
+        if (goodStart != null) Start.sprite = goodStart;
+        var x = FindObjectOfType<LevelMusic>();
+        if (x != null) x.playRegularMusic();
         if (Start != null)
         {
-            Start.sprite = goodStart;
+            if (goodStart != null) Start.sprite = goodStart;
         }
     }
 

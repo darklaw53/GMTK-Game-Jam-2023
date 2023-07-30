@@ -27,7 +27,7 @@ public class WindowManager : Singleton<WindowManager>
 
     public void NewRequest()
     {
-        if (allRequests[0] != null)
+        if (allRequests.Count > 0)
         {
             currentRequest = allRequests[0].itemList;
             Window.Instance.UpdateRequest(currentRequest);
